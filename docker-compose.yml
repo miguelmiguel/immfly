@@ -1,0 +1,48 @@
+version: '3.5'
+
+services:
+    immfly-backend:
+        container_name: "immfly-backend"
+        build:
+            context: .
+            dockerfile: docker/Dockerfile
+        image: immfly-backend:0.1
+        volumes:
+            - .:/backend
+        environment:
+            DJANGO_SUPERUSER_USERNAME: pointdexter
+            DJANGO_SUPERUSER_PASSWORD: lp0okmnji98uhb
+            DJANGO_SUPERUSER_EMAIL: pointdexter@prueba.com
+            MYSQL: |-
+                immfly-mysqldb:3306
+            MYSQL_USER: immfly_user
+            MYSQL_PASSWORD: immfly_password
+            MYSQL_DB: immfly_backend
+            BACKEND_SECRET_KEY: (l)!oz$$499ps63zeqr+1c*8!**n(e6@#6!2d&l1aq6w+3k1ij
+        ports:
+            - 8989:8888
+        links:
+            - immfly-mysqldb
+    immfly-mysqldb:
+        container_name: "immfly-mysql"
+        image: mysql:8.0
+        volumes:
+          - db_data:/var/lib/mysql
+        restart: always
+        ports:
+            - "30306:3306"
+        environment:
+          MYSQL_ROOT_PASSWORD: my-secret-pw
+          MYSQL_DATABASE: immfly_backend
+          MYSQL_USER: immfly_user
+          MYSQL_PASSWORD: immfly_password
+        networks: 
+            - immflynetwork
+
+volumes:
+    db_data:
+    
+networks: 
+    immflynetwork:
+        name: immfly-network
+        driver: bridge
