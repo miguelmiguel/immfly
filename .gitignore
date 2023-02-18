@@ -1,3 +1,6 @@
 *.pyc
 immfly/db.sqlite3
+immfly/immfly/env.py
+immfly/immfly/_env.py
 tkfl
+.vscode

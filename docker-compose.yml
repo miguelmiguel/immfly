@@ -13,8 +13,8 @@ services:
             DJANGO_SUPERUSER_USERNAME: pointdexter
             DJANGO_SUPERUSER_PASSWORD: lp0okmnji98uhb
             DJANGO_SUPERUSER_EMAIL: pointdexter@prueba.com
-            MYSQL: |-
-                immfly-mysqldb:3306
+            MYSQL_HOST: immfly_mysqldb
+            MYSQL_PORT: 3306
             MYSQL_USER: immfly_user
             MYSQL_PASSWORD: immfly_password
             MYSQL_DB: immfly_backend
@@ -22,10 +22,12 @@ services:
         ports:
             - 8989:8888
         links:
-            - immfly-mysqldb
-    immfly-mysqldb:
+            - immfly_mysqldb
+        networks: 
+            - immflynetwork
+    immfly_mysqldb:
         container_name: "immfly-mysql"
-        image: mysql:8.0
+        image: mysql:5.7
         volumes:
           - db_data:/var/lib/mysql
         restart: always

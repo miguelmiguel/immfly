@@ -9,8 +9,14 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+try:
+    from immfly.env import *
+except ImportError:
+    print('Unable to load env.py:')
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-a19^ovd-!n6y6@r&=qg**_70lb9w-ci*9l=&q*bimg0^8!fvo1'
+SECRET_KEY = os.environ.get('BACKEND_SECRET_KEY',
+    'django-insecure-a19^ovd-!n6y6@r&=qg**_70lb9w-ci*9l=&q*bimg0^8!fvo1')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -78,8 +85,17 @@ WSGI_APPLICATION = 'immfly.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        'PORT': os.environ.get('MYSQL_PORT'),
+        'HOST': os.environ.get('MYSQL_HOST'),
+        'NAME': os.environ.get('MYSQL_DB'),
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': os.environ.get('MYSQL_USER'),
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
+        'OPTIONS': {
+          'autocommit': True,
+          'auth_plugin': 'mysql_native_password'
+        },
     }
 }
 
