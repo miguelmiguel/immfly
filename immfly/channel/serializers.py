@@ -22,7 +22,8 @@ class ChannelSerializer(serializers.ModelSerializer):
     return data
 
 class ListChannelSerializer(serializers.ModelSerializer):
+  rating = serializers.ReadOnlyField()
   class Meta:
     model = Channel
-    fields = ['id', 'title', 'language', 'picture', 'subchannels', 'contents']
-    read_only_fields = ['id', 'title', 'language', 'picture', 'subchannels', 'contents']
+    fields = ['id', 'title', 'language', 'picture', 'subchannels', 'contents', 'rating']
+    read_only_fields = ['id', 'title', 'language', 'picture', 'subchannels', 'contents', 'rating']

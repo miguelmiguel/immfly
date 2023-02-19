@@ -16,4 +16,34 @@ class Channel(models.Model):
     #         raise ValidationError('Channels cannot contain contents and subchannels')
     #     super(Channel, self).save(*args, **kwargs)
 
+    @property
+    def rating(self):
+        return self.get_ratings_avg()
+
+    def get_ratings_avg(self):
+        channels, contents = {}, {}
+        channels, contents = self.channel_rating(channels, contents)
+        rating = 0
+        index = 0
+        for ch in channels.keys():
+            rating += channels[ch]
+            index += 1
+        return rating / index
         
+    def channel_rating(self, channels, contents):
+        if self.id not in channels:
+            channels[self.id] = 0
+            index = 0
+            rating = 0
+            for ct in self.contents.all():
+                contents[ct.id] = ct.rating
+                rating += ct.rating
+                index += 1
+            if index > 0:
+                channels[self.id] = rating/index
+            for ch in self.subchannels.all():
+                channels, contents = ch.channel_rating(channels, contents)
+        return channels, contents
+
+            
+
