@@ -23,27 +23,42 @@ class Channel(models.Model):
     def get_ratings_avg(self):
         channels, contents = {}, {}
         channels, contents = self.channel_rating(channels, contents)
-        rating = 0
-        index = 0
-        for ch in channels.keys():
-            rating += channels[ch]
-            index += 1
-        return rating / index
+        return channels[self.id]
         
     def channel_rating(self, channels, contents):
         if self.id not in channels:
-            channels[self.id] = 0
+            current_channel = {'rating':0, 'has_contents':False}
             index = 0
             rating = 0
-            for ct in self.contents.all():
-                contents[ct.id] = ct.rating
-                rating += ct.rating
-                index += 1
-            if index > 0:
-                channels[self.id] = rating/index
-            for ch in self.subchannels.all():
-                channels, contents = ch.channel_rating(channels, contents)
+            channel_contents = self.contents.all()
+            if channel_contents.count() > 0:
+                current_channel['has_contents'] = True
+                for ct in channel_contents:
+                    contents[ct.id] = ct.rating
+                    rating += ct.rating
+                    index += 1
+                if index > 0:
+                    current_channel['rating'] = rating/index
+                channels[self.id] = current_channel
+            else:
+                channels[self.id] = current_channel
+                for ch in self.subchannels.all():
+                    channels, contents = ch.channel_rating(channels, contents)
+                    if channels[ch.id]['has_contents']:
+                        rating += channels[ch.id]['rating']
+                        index += 1
+                if index > 0:
+                    current_channel['rating'] = rating/index
+                channels[self.id] = current_channel
         return channels, contents
 
+    @classmethod
+    def get_all_ratings(cls):
+        channels = cls.objects.all()
+        channels_ratings, contents = {}, {}
+        for ch in channels:
+            if ch.id not in channels_ratings:
+                channels_ratings, contents = ch.channel_rating(channels_ratings, contents)
+        return channels_ratings
             
 

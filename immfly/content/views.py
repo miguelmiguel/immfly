@@ -47,7 +47,7 @@ class ContentView(generics.ListCreateAPIView):
         """
         Query for listing contents
         """
-        action = 'List Controls'
+        action = 'List Contents'
         try:
             queryset = self.get_queryset()
             serializer = self.get_serializer(queryset, many=True)
