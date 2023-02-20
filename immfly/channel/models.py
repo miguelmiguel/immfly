@@ -27,7 +27,7 @@ class Channel(models.Model):
         
     def channel_rating(self, channels, contents):
         if self.id not in channels:
-            current_channel = {'rating':0, 'has_contents':False}
+            current_channel = {'rating':0, 'has_contents':False, 'title': self.title}
             index = 0
             rating = 0
             channel_contents = self.contents.all()
