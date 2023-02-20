@@ -62,3 +62,10 @@ class Channel(models.Model):
         return channels_ratings
             
 
+    @classmethod
+    def get_all_ratings_sorted(cls, reverse=True):
+        ratings = cls.get_all_ratings()
+        sorted_channels_by_rating = sorted(ratings.items(), key=lambda x:x[1]['rating'], reverse=reverse)
+        converted_dict = dict(sorted_channels_by_rating)
+        return converted_dict
+
