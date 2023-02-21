@@ -24,4 +24,4 @@ class Command(BaseCommand):
             f.close()
         except Exception as e:
             error_message = detailed_exception_message(e)
-            self.stderr.write(error_message)
+            raise CommandError(error_message)

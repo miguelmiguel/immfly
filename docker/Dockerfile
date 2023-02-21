@@ -8,10 +8,14 @@ COPY docker/nginx.default /etc/nginx/sites-available/default
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
 
+# upgrade pip and add trusted sources
+RUN python -m pip install --trusted-host pypi.python.org --trusted-host files.pythonhosted.org --trusted-host pypi.org --upgrade pip
+
 # copy source and install dependencies
 RUN mkdir -p /opt/app
 RUN mkdir -p /opt/app/backend
 RUN mkdir -p /opt/app/backend/logs
+RUN mkdir -p /opt/app/backend/static
 COPY requirements.txt docker/start-server.sh /opt/app/
 WORKDIR /opt/app/
 RUN pip install -r requirements.txt

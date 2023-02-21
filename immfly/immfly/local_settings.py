@@ -12,12 +12,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
-# try:
-#     from immfly.env import *
-# except ImportError:
-#     print('Unable to load env.py:')
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -30,18 +24,20 @@ SECRET_KEY = os.environ.get('BACKEND_SECRET_KEY',
     'django-insecure-a19^ovd-!n6y6@r&=qg**_70lb9w-ci*9l=&q*bimg0^8!fvo1')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 CSRF_TRUSTED_ORIGINS = ['http://localhost:8989']
 
 ALLOWED_HOSTS = []
 
-# Static files
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = '/static/'
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'staticfiles'),
-# )
+# Environment local variables
+os.environ['MYSQL_ROOT_HOST'] = "%"
+os.environ['MYSQL_HOST'] = "127.0.0.1"
+os.environ['MYSQL_PORT'] = "30306"
+os.environ['MYSQL_USER'] = "immfly_user"
+os.environ['MYSQL_PASSWORD'] = "immfly_password"
+os.environ['MYSQL_DB'] = "immfly_backend"
+os.environ['BACKEND_SECRET_KEY'] = "(l)!oz$$499ps63zeqr+1c*8!**n(e6@#6!2d&l1aq6w+3k1ij"
 
 # Application definition
 
