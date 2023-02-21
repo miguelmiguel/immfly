@@ -81,6 +81,7 @@ class GetRatingsTest(TestCase):
     def test_get_channel_rating(self):
         rating_6 = self.channel_6.rating['rating']
         self.assertEqual(rating_6, 10)
+        rating_got = self.channel_6.get_ra
         rating_1 = self.channel_1.rating['rating']
         # content_1 rating = 20
         # content_2 rating = 100

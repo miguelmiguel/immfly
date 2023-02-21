@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from common.utils import exception_message
+from content.serializers import ContentSerializer
 from .models import Channel
 from .filters import ChannelFilter
 from .serializers import (ChannelSerializer, ListChannelSerializer, 
@@ -147,3 +148,39 @@ class ChannelDetailView(APIView):
 
         data = {'message': error}
         return Response(data, status=service_status)
+
+class SubchannelList(APIView):
+    def get_queryset(self, id):
+        """
+        Channel filter for preparing queryset
+        """
+        return Channel.objects.get(pk=id).subchannels
+
+    def get(self, request, id):
+        """
+        Method that gets the list of subchannels from a Channel
+        
+        Params:
+        - id: Channel ID
+        """
+        queryset = self.get_queryset(id)
+        serializer = ChannelSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class ContentList(APIView):
+    def get_queryset(self, id):
+        """
+        Channel filter for preparing queryset
+        """
+        return Channel.objects.get(pk=id).contents
+
+    def get(self, request, id):
+        """
+        Method that gets the list of contents from a Channel
+        
+        Params:
+        - id: Channel ID
+        """
+        queryset = self.get_queryset(id)
+        serializer = ContentSerializer(queryset, many=True)
+        return Response(serializer.data)
