@@ -31,6 +31,7 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost:8989']
 ALLOWED_HOSTS = []
 
 # Environment local variables
+
 os.environ['MYSQL_ROOT_HOST'] = "%"
 os.environ['MYSQL_HOST'] = "127.0.0.1"
 os.environ['MYSQL_PORT'] = "30306"
