@@ -9,6 +9,7 @@ from .models import Content
 from .filters import ContentFilter
 from .serializers import ContentSerializer, ListContentSerializer
 
+
 class ContentView(generics.ListCreateAPIView):
     """
     View for creating contents through the API
@@ -52,6 +53,7 @@ class ContentView(generics.ListCreateAPIView):
             service_status = status.HTTP_500_INTERNAL_SERVER_ERROR
             data = {"message" : message}
             return Response(data, status=service_status)
+
 
 class ContentDetailView(APIView):
     """

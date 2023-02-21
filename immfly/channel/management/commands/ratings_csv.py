@@ -5,6 +5,7 @@ from django.core.management.base import BaseCommand, CommandError
 from common.utils import detailed_exception_message
 from channel.models import Channel
 
+
 class Command(BaseCommand):
     help = 'Generate CSV containing all Channel Ratings'
 

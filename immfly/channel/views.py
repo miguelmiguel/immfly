@@ -11,6 +11,7 @@ from .filters import ChannelFilter
 from .serializers import (ChannelSerializer, ListChannelSerializer, 
     ChannelDetailSerializer, ChannelUpdateSerializer)
 
+
 class ChannelView(generics.ListCreateAPIView):
     """
     View for creating channels through the API
@@ -55,6 +56,7 @@ class ChannelView(generics.ListCreateAPIView):
             service_status = status.HTTP_500_INTERNAL_SERVER_ERROR
             data = {"message" : message}
             return Response(data, status=service_status)
+
 
 class ChannelDetailView(APIView):
     """
@@ -149,6 +151,7 @@ class ChannelDetailView(APIView):
         data = {'message': error}
         return Response(data, status=service_status)
 
+
 class SubchannelList(APIView):
     def get_queryset(self, id):
         """
@@ -163,9 +166,20 @@ class SubchannelList(APIView):
         Params:
         - id: Channel ID
         """
-        queryset = self.get_queryset(id)
-        serializer = ChannelSerializer(queryset, many=True)
-        return Response(serializer.data)
+        try:
+            queryset = self.get_queryset(id)
+            serializer = ChannelSerializer(queryset, many=True)
+            return Response(serializer.data)
+        except Channel.DoesNotExist:
+            error = f"Channel '{id}' not found"
+            service_status = status.HTTP_404_NOT_FOUND
+        except Exception as e:
+            error = exception_message(e)
+            service_status = status.HTTP_500_INTERNAL_SERVER_ERROR
+
+        data = {'message': error}
+        return Response(data, status=service_status)
+
 
 class ContentList(APIView):
     def get_queryset(self, id):
@@ -181,6 +195,16 @@ class ContentList(APIView):
         Params:
         - id: Channel ID
         """
-        queryset = self.get_queryset(id)
-        serializer = ContentSerializer(queryset, many=True)
-        return Response(serializer.data)
+        try:
+            queryset = self.get_queryset(id)
+            serializer = ContentSerializer(queryset, many=True)
+            return Response(serializer.data)
+        except Channel.DoesNotExist:
+            error = f"Channel '{id}' not found"
+            service_status = status.HTTP_404_NOT_FOUND
+        except Exception as e:
+            error = exception_message(e)
+            service_status = status.HTTP_500_INTERNAL_SERVER_ERROR
+
+        data = {'message': error}
+        return Response(data, status=service_status)
