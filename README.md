@@ -36,4 +36,46 @@ GRANT ALL PRIVILEGES ON *.* TO 'immfly_user'@'%';
 FLUSH PRIVILEGES;
 ```
 
+## Generación de CSV de ratings
+Ejecutar este comando en el directorio del proyecto
+```
+python manage.py ratings_csv <ruta_donde_quiero_crear_el_fichero.csv>
+```
 
+## Endpoints
+Se utilizó DRF para crear el API REST para los modelos.
+Se crearon endpoints para los contenidos y canales. Son los siguientes:
+
+
+### Listado de Contents
+```
+http://localhost:8989/content/
+```
+Aquí se puede crear nuevos contents.
+
+### Detalles de un Content
+```
+http://localhost:8989/content/<id>
+```
+Aquí se puede editar el content en particular o borrarlo
+
+### Listado de Channels
+```
+http://localhost:8989/channel/
+```
+Aquí se puede crear nuevos channels.
+
+### Detalles de un Channel
+```
+http://localhost:8989/channel/<id>
+```
+Aquí se puede editar el channel en particular o borrarlo
+
+### Listado de Subchannels de un Channel
+```
+http://localhost:8989/channel/<id>/subchannels
+```
+### Listado de Contents de un Channel
+```
+http://localhost:8989/channel/<id>/contents
+```
