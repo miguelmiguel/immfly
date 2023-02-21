@@ -17,19 +17,19 @@ def set_up_user(instance):
     logged_in = client.login(username='MyUsername', password='My-Password')
 
 def set_up_contents(instance):
-    instance.content_1 = Content.objects.create(pk=1, name="Content 1", rating=20, 
+    instance.content_1 = Content.objects.create(name="Test Content 1", rating=20, 
         source="content1.pdf", metadata={'languages':['english', 'spanish'], 
         'description':{'spanish': 'Primer contenido', 'english': 'First content'}})
-    instance.content_2 = Content.objects.create(pk=2, name="Content 2", rating=100, 
+    instance.content_2 = Content.objects.create(name="Test Content 2", rating=100, 
         source="content2.mp4", metadata={'languages':['english', 'spanish'], 
         'description':{'spanish': 'Segundo contenido', 'english': 'Second content'}})
-    instance.content_3 = Content.objects.create(pk=3, name="Content 3", rating=10, 
+    instance.content_3 = Content.objects.create(name="Test Content 3", rating=10, 
         source="content3.txt", metadata={'languages':['english', 'spanish'], 
-        'description':{'spanish': 'Tercer contenido', 'english': 'Tercer content'}})
-    instance.content_4 = Content.objects.create(pk=4, name="Content 4", rating=30, 
+        'description':{'spanish': 'Tercer contenido', 'english': 'Third content'}})
+    instance.content_4 = Content.objects.create(name="Test Content 4", rating=30, 
         source="content4.txt", metadata={'languages':['english', 'spanish'], 
         'description':{'spanish': 'Cuarto contenido', 'english': 'Fourth content'}})
-    instance.content_5 = Content.objects.create(pk=5, name="Content 5", rating=80, 
+    instance.content_5 = Content.objects.create(name="Test Content 5", rating=80, 
         source="content5.mp4", metadata={'languages':['english', 'spanish'], 
         'description':{'spanish': 'Quinto contenido', 'english': 'Fifth content'}})
 
